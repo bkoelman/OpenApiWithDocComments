@@ -1,3 +1,4 @@
+using ExternalClassLibrary;
 using MartinCostello.OpenApi;
 using WebApi;
 using Scalar.AspNetCore;
@@ -17,6 +18,12 @@ builder.Services.AddOpenApiExtensions(options =>
     options.AddExamples = true;
     options.SerializationContexts.Add(WeatherForecastSerializerContext.Default);
     options.AddXmlComments<Program>();
+    options.ExamplesMetadata.Add(new DynamicExampleProvider(typeof(WeatherForecast), () => new WeatherForecast
+    {
+        Summary = "Freezing",
+        Date = DateOnly.FromDateTime(DateTime.Today),
+        TemperatureC = -5
+    }));
 });
 
 var app = builder.Build();

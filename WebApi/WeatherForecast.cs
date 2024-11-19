@@ -1,12 +1,9 @@
-using MartinCostello.OpenApi;
-
 namespace WebApi;
 
 /// <summary>
 /// Provides details about an individual weather forecast.
 /// </summary>
-[OpenApiExample<WeatherForecast>]
-public class WeatherForecast : IExampleProvider<WeatherForecast>
+public class WeatherForecast
 {
     /// <summary>
     /// Gets or sets the date this forecast applies to.
@@ -27,15 +24,4 @@ public class WeatherForecast : IExampleProvider<WeatherForecast>
     /// Gets or sets a human-readable forecast description.
     /// </summary>
     public string? Summary { get; set; }
-
-    /// <summary/>
-    public static WeatherForecast GenerateExample()
-    {
-        return new WeatherForecast
-        {
-            Summary = "Freezing",
-            Date = DateOnly.FromDateTime(DateTime.Today),
-            TemperatureC = -5
-        };
-    }
 }
