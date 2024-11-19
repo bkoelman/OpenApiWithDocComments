@@ -6,6 +6,7 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddSqlite<AppDbContext>("Data Source=SampleDb.db;Pooling=False");
 
 builder.Services.AddControllers();
 
@@ -15,16 +16,11 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddOpenApiExtensions(options =>
 {
     options.AddServerUrls = true;
-    options.AddExamples = true;
     options.SerializationContexts.Add(WeatherForecastSerializerContext.Default);
     options.AddXmlComments<Program>();
-    options.ExamplesMetadata.Add(new DynamicExampleProvider(typeof(WeatherForecast), () => new WeatherForecast
-    {
-        Summary = "Freezing",
-        Date = DateOnly.FromDateTime(DateTime.Today),
-        TemperatureC = -5
-    }));
 });
+builder.Services.AddOpenApiExamplesFromDbContext<AppDbContext>();
+builder.Services.AddOpenApiDescriptionEnrichment();
 
 var app = builder.Build();
 
